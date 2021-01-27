@@ -1,6 +1,7 @@
 //Dependency imports
 import React, {useState} from 'react';
 import axios from 'axios';
+import {navigate} from '@reach/router';
 
 const EmployerRegister = props => {
     const [companyName, setCompanyName] = useState("");
@@ -19,9 +20,9 @@ const EmployerRegister = props => {
             password: password,
             confirmPassword: confirmPassword
         }
-        axios.post("http://localhost:8000/api/employers/register", employer)
-            .then(res => {
-                console.log(res);
+        axios.post("http://localhost:8000/api/employers/register", employer, {withCredentials: true})
+            .then(_res => {
+                navigate("/dashboard");
             }).catch(err => {
                 const errResponse = err.response.data.errors;
                 const errArray = [];

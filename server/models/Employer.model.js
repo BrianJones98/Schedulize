@@ -23,7 +23,7 @@ const EmployerSchema = new mongoose.Schema({
         required: [true, "Password is required"],
         validate: {
             validator: val => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(val),
-            message: "Password must contain at least 8 characters, contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+            message: "Password does not meet requirements"
         }
     }
 }, {timestamps: true});

@@ -4,7 +4,7 @@ import {navigate} from '@reach/router';
 import axios from 'axios';
 
 const Login = props => {
-    const [errors, setErrors] = useState([]);
+    const [error, setError] = useState("");
     
     const onSubmit = event => {
         event.preventDefault();
@@ -12,10 +12,12 @@ const Login = props => {
             email: event.target.email.value,
             password: event.target.password.value
         }
-        axios.post("http://localhost:8000/api/employers/login", credentials)
+
+
+        axios.post("http://localhost:8000/api/employers/login", credentials, {withCredentials: true})
             .then(_response => {
                 navigate("/dashboard")
-            }).catch(err => console.log(err));
+            }).catch(_err => setError("Invalid username or password"));
     }
     
     return (
@@ -27,9 +29,7 @@ const Login = props => {
                 <button>Login</button>
             </form>
             {
-                errors.map((err, idx) => {return (
-                    <p key={idx}>{err}</p>
-                )})
+                error && <p>{error}</p>
             }
         </div>
     );
