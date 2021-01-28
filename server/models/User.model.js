@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const EmployerSchema = new mongoose.Schema({
-    companyName: {
+const UserSchema = new mongoose.Schema({
+    firstName: {
         type: String,
-        required: [true, "Company name is required"]
+        required: [true, "First name is required"]
     },
-    employerCode: {
+    lastName: {
         type: String,
-        required: [true, "Employer code is required"]
+        required: [true, "Last name is required"]
     },
     email: {
         type: String,
@@ -16,7 +16,8 @@ const EmployerSchema = new mongoose.Schema({
         validate: {
             validator: val => /^([\w-\.]+@([\w-]+\.)+[\w-]+)?$/.test(val),
             message: "Please enter a valid email address"
-        }
+        },
+        unique: true
     },
     password: {
         type: String,
@@ -28,18 +29,18 @@ const EmployerSchema = new mongoose.Schema({
     }
 }, {timestamps: true});
 
-EmployerSchema.virtual('confirmPassword')
+UserSchema.virtual('confirmPassword')
     .get(() => this._confirmPassword)
     .set(value => this._confirmPassword = value);
 
-EmployerSchema.pre('validate', function(next) {
+UserSchema.pre('validate', function(next) {
     if(this.password !== this.confirmPassword) {
         this.invalidate('confirmPassword', "Passwords do not match");
     }
     next();
 });
 
-EmployerSchema.pre('save', function(next) {
+UserSchema.pre('save', function(next) {
     bcrypt.hash(this.password, 10)
         .then(hash => {
             this.password = hash;
@@ -47,4 +48,4 @@ EmployerSchema.pre('save', function(next) {
         });
 });
 
-module.exports = mongoose.model('Employer', EmployerSchema);
+module.exports = mongoose.model('User', UserSchema);

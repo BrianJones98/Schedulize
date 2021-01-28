@@ -3,9 +3,9 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import {navigate} from '@reach/router';
 
-const EmployerRegister = props => {
-    const [companyName, setCompanyName] = useState("");
-    const [employerCode, setEmployerCode] = useState("");
+const Registration = props => {
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -13,14 +13,14 @@ const EmployerRegister = props => {
     
     const handleSubmit = event => {
         event.preventDefault();
-        const employer = {
-            companyName: companyName,
-            employerCode: employerCode,
+        const user = {
+            firstName: firstName,
+            lastName: lastName,
             email: email,
             password: password,
             confirmPassword: confirmPassword
         }
-        axios.post("http://localhost:8000/api/employers/register", employer, {withCredentials: true})
+        axios.post("http://localhost:8000/api/users/register", user, {withCredentials: true})
             .then(_res => {
                 navigate("/dashboard");
             }).catch(err => {
@@ -36,22 +36,23 @@ const EmployerRegister = props => {
 
     return (
         <div>
+            <h1>New here? Register for an account below!</h1>
             <form onSubmit={handleSubmit}>
                 <input 
                     type="text" 
-                    name="companyName" 
-                    id="companyName" 
-                    placeholder="Company Name"
-                    value={companyName}
-                    onChange={e => setCompanyName(e.target.value)}
+                    name="firstName" 
+                    id="firstName" 
+                    placeholder="First Name"
+                    value={firstName}
+                    onChange={e => setFirstName(e.target.value)}
                 />
                 <input 
                     type="text" 
-                    name="employerCode" 
-                    id="employerCode" 
-                    placeholder="Employer Code"
-                    value={employerCode}
-                    onChange={e => setEmployerCode(e.target.value)}
+                    name="lastName" 
+                    id="lastName" 
+                    placeholder="Last Name"
+                    value={lastName}
+                    onChange={e => setLastName(e.target.value)}
                 />
                 <input 
                     type="text" 
@@ -84,8 +85,8 @@ const EmployerRegister = props => {
             </form>
             <div>
                 <ul>
-                    <li>Company name is required</li>
-                    <li>Employer code is required</li>
+                    <li>First name is required</li>
+                    <li>Last name is required</li>
                     <li>Email is required</li>
                     <li>
                         Password must:
@@ -109,4 +110,4 @@ const EmployerRegister = props => {
     );
 }
 
-export default EmployerRegister;
+export default Registration;

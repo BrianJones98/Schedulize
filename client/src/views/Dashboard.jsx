@@ -8,14 +8,18 @@ import {navigate} from '@reach/router';
 import Schedule from '../components/Schedule.jsx';
 
 const Dashboard = props => {
-    const [selectedDay, setSelectedDay] = useState(new Date());
-    const [employer, setEmployer] = useState({});
+    const [selectedDay, setSelectedDay] = useState(new Date(
+        new Date().getFullYear(), 
+        new Date().getMonth(), 
+        new Date().getDate()
+    ));
+    const [user, setUser] = useState({});
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/employers/placeholder")
+        axios.get("http://localhost:8000/api/users/find/cookie", {withCredentials: true})
         .then(res => {
-            setEmployer(res.data);
+            setUser(res.data);
             setLoaded(true);
         }).catch(() => navigate("/"));
     }, []);
@@ -28,7 +32,7 @@ const Dashboard = props => {
     
     return (
         <div>
-            <h1>Dashboard for {employer.companyName}</h1>
+            <h1>Dashboard for {user.firstName}</h1>
             <div>
                 <Calendar
                     onChange={onChange}
@@ -36,7 +40,7 @@ const Dashboard = props => {
                 />
             </div>
             <Schedule
-                date={selectedDay.toLocaleDateString()}
+                date={selectedDay}
             />
         </div>
     );

@@ -1,18 +1,12 @@
 //Dependency imports
 import './App.css';
-import {Router, navigate} from '@reach/router';
-import axios from 'axios';
+import {Router} from '@reach/router';
 
 //View imports
 import Index from './views/Index.jsx';
 import Dashboard from './views/Dashboard.jsx';
 
 function App() {
-  // axios.interceptors.response.use(response => response, 
-  //   error => {
-  //   navigate("/");
-  //   return error;
-  // });
   
   return (
     <div className="App">
