@@ -1,9 +1,12 @@
 //Dependency imports
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import styles from './style.module.css';
 
-//Component imports
+//Subcomponent imports
 import ScheduleForm from './subcomponents/ScheduleForm.jsx';
+import ColumnForm from './subcomponents/ColumnForm.jsx';
+import TaskForm from './subcomponents/TaskForm.jsx';
 
 const Schedule = props => {
     const {date} = props;
@@ -36,6 +39,38 @@ const Schedule = props => {
             }).catch(console.log);
     }
 
+    const createColumn = event => {
+        event.preventDefault();
+        const column = {
+            header: event.target.header.value,
+            items: {}
+        }
+        console.log(column);
+
+        axios.put(`http://localhost:8000/api/schedules/create-column/${schedule._id}`, column)
+            .then(res => {
+                setSchedule(res.data);
+            }).catch(console.log);
+    }
+
+    const createTask = event => {
+        event.preventDefault();
+        const data = {
+            task: event.target.task.value,
+            duration: event.target.duration.value,
+            durationType: event.target.durationType.value,
+            intervalIndex: event.target.intervalIndex.value,
+            columnIndex: event.target.columnIndex.value,
+            intervalType: schedule.intervalData.type
+        }
+        console.log(data);
+
+        axios.put(`http://localhost:8000/api/schedules/create-task/${schedule._id}`, data)
+            .then(res => {
+                setSchedule(res.data);
+            }).catch(console.log);
+    }
+
     useEffect(() => {
         axios.get("http://localhost:8000/api/schedules/find", {
             withCredentials: true,
@@ -62,12 +97,24 @@ const Schedule = props => {
     }
 
     return (
-        <div>
+        <div className={styles.schedule}>
             <h1>Schedule for {date.toLocaleDateString()}</h1>
-            <table>
+            <table cellSpacing={0} cellPadding={5}>
                 <thead>
                     <tr>
                         <th>Time</th>
+                        {
+                            schedule.columns.map((column, idx) =>{
+                                return (
+                                    <th key={idx}>{column.header}</th>
+                                );
+                            })
+                        }
+                        <th>
+                            <ColumnForm
+                                onSubmit={createColumn}
+                            />
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,9 +122,23 @@ const Schedule = props => {
                         schedule.intervals.map((interval, idx) =>{
                             return (
                                 <tr key={idx}>
-                                    <td>{interval}</td>
+                                    <th>{interval}</th>
+                                    {
+                                        schedule.columns.map((column, colIdx) =>{
+                                            if (column.items[idx]) return <td key={colIdx}>{column.items[idx]}</td>
+                                            return (
+                                                <td key={colIdx}>
+                                                    <TaskForm 
+                                                        intervalIndex={idx}
+                                                        columnIndex={colIdx}
+                                                        onSubmit={createTask}
+                                                    />
+                                                </td>
+                                            );
+                                        })
+                                    }
                                 </tr>
-                            )
+                            );
                         })
                     }
                 </tbody>

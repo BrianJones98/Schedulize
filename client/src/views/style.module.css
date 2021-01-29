@@ -1,0 +1,29 @@
+.dashboardContent{
+    display: flex;
+    justify-content: space-evenly;
+    vertical-align: top;
+}
+
+.calendar{
+    display: inline-block;
+    width: 400px;
+    height: max-content;
+    border: 5px solid black;
+    padding: 5px;
+    background-color: whitesmoke;
+}
+    .calendar button{
+        background: none;
+        border: none;
+        height: 50px;
+    }
+        .calendar button:hover{
+            background: gray;
+        }
+
+.indexContainer{
+    display: flex;
+    justify-content: space-evenly;
+    vertical-align: top;
+    align-items: center;
+}

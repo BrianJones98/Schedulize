@@ -1,10 +1,11 @@
 //Dependency imports
 import React, {useEffect, useState} from 'react';
-import Calendar from 'react-calendar';
 import axios from 'axios';
 import {navigate} from '@reach/router';
+import styles from './style.module.css';
 
 //Component imports
+import Calendar from 'react-calendar';
 import Schedule from '../components/Schedule.jsx';
 
 const Dashboard = props => {
@@ -33,15 +34,16 @@ const Dashboard = props => {
     return (
         <div>
             <h1>Dashboard for {user.firstName}</h1>
-            <div>
+            <div className={styles.dashboardContent}>
                 <Calendar
                     onChange={onChange}
                     value={selectedDay}
+                    className={styles.calendar}
+                />
+                <Schedule
+                    date={selectedDay}
                 />
             </div>
-            <Schedule
-                date={selectedDay}
-            />
         </div>
     );
 }

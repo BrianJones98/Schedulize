@@ -1,0 +1,33 @@
+.schedule{
+    display: inline-block;
+    max-width: 60%;
+    max-height: 700px;
+    overflow: scroll;
+    border: 5px solid black;
+}
+    .schedule table{
+        display: inline-block;
+        border: 1px solid black;
+    }
+        .schedule table th{
+            font-size: 20px;
+            background-color: gray;
+        }
+        .schedule table td{
+            width: 500px;
+        }
+            .schedule table td:nth-child(odd){
+                background-color: rgb(200, 200, 200);
+            }
+            .schedule table td:nth-child(even){
+                background-color: rgb(150, 150, 150);
+            }
+        .schedule table thead th{
+            border-bottom: 2px solid black;
+        }
+            .schedule table thead th:nth-child(1){
+                border-right: 2px solid black;
+            }
+        .schedule table tbody th{
+            border-right: 2px solid black;
+        }

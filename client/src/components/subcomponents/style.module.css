@@ -1,0 +1,22 @@
+.taskForm input{
+    background-color: rgb(240, 240, 240);
+    height: 20px;
+    border: 1px solid black;
+    outline: none;
+}
+    .taskForm input::placeholder{
+        color:rgb(100, 100, 100)
+    }
+    .taskForm button{
+        height: 20px;
+        width: 40px;
+        display: block;
+        margin: 0 auto;
+    }
+    .taskForm input:nth-child(2){
+        width: 65px;
+    }
+    .taskForm select{
+        height: 24px;
+        border: 1px solid black;
+    }

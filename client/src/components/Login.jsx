@@ -14,7 +14,7 @@ const Login = props => {
         }
 
 
-        axios.post("http://localhost:8000/api/employers/login", credentials, {withCredentials: true})
+        axios.post("http://localhost:8000/api/users/login", credentials, {withCredentials: true})
             .then(_response => {
                 navigate("/dashboard")
             }).catch(_err => setError("Invalid username or password"));

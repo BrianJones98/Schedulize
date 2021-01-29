@@ -12,7 +12,8 @@ const ScheduleSchema = new mongoose.Schema({
         required: [true, "Please enter an end time"]
     },
     intervals: Array,
+    intervalData: Object,
     columns: Array
-}, {timestamps: true})
+}, {timestamps: true, minimize: false})
 
 module.exports = mongoose.model('Schedule', ScheduleSchema);
