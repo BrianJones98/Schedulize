@@ -13,7 +13,6 @@ function App() {
       <header>
         <h1>Schedulize</h1>
       </header>
-      <hr/>
       <Router>
         <Index path="/"/>
         <Dashboard path="/dashboard"/>

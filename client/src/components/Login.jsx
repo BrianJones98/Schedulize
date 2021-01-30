@@ -2,6 +2,7 @@
 import React, {useState} from 'react';
 import {navigate} from '@reach/router';
 import axios from 'axios';
+import styles from './style.module.css';
 
 const Login = props => {
     const [error, setError] = useState("");
@@ -21,7 +22,7 @@ const Login = props => {
     }
     
     return (
-        <div>
+        <div className={styles.login}>
             <h2>Have an account? Login below!</h2>
             <form onSubmit={onSubmit}>
                 <input type="text" name="email" id="email" placeholder="Email"/>

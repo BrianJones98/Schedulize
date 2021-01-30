@@ -2,6 +2,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import {navigate} from '@reach/router';
+import styles from './style.module.css';
 
 const Registration = props => {
     const [firstName, setFirstName] = useState("");
@@ -10,6 +11,20 @@ const Registration = props => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState([]);
+
+    const valid = {
+        color: "green"
+    }
+    const invalid = {
+        color: "red"
+    }
+
+    const emailRegex = /^([\w-.]+@([\w-]+\.)+[\w-]+)?$/;
+    const pwLowerCase = /^(?=.*[a-z])/;
+    const pwUpperCase = /^(?=.*[A-Z])/;
+    const pwNumber = /^(?=.*[0-9])/;
+    const pwSpecial = /^(?=.*\W)/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     
     const handleSubmit = event => {
         event.preventDefault();
@@ -35,34 +50,34 @@ const Registration = props => {
     }
 
     return (
-        <div>
-            <h1>New here? Register for an account below!</h1>
-            <form onSubmit={handleSubmit}>
-                <input 
-                    type="text" 
-                    name="firstName" 
-                    id="firstName" 
-                    placeholder="First Name"
-                    value={firstName}
-                    onChange={e => setFirstName(e.target.value)}
-                />
-                <input 
-                    type="text" 
-                    name="lastName" 
-                    id="lastName" 
-                    placeholder="Last Name"
-                    value={lastName}
-                    onChange={e => setLastName(e.target.value)}
-                />
-                <input 
-                    type="text" 
-                    name="email" 
-                    id="email" 
-                    placeholder="Email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                />
-                <div>
+        <div className={styles.registration}>
+            <h2>New here? Register for an account below!</h2>
+            <div>
+                <form onSubmit={handleSubmit}>
+                    <input 
+                        type="text" 
+                        name="firstName" 
+                        id="firstName" 
+                        placeholder="First Name"
+                        value={firstName}
+                        onChange={e => setFirstName(e.target.value)}
+                    />
+                    <input 
+                        type="text" 
+                        name="lastName" 
+                        id="lastName" 
+                        placeholder="Last Name"
+                        value={lastName}
+                        onChange={e => setLastName(e.target.value)}
+                    />
+                    <input 
+                        type="text" 
+                        name="email" 
+                        id="email" 
+                        placeholder="Email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                    />
                     <input 
                         type="password" 
                         name="password" 
@@ -79,33 +94,45 @@ const Registration = props => {
                         value={confirmPassword}
                         onChange={e => setConfirmPassword(e.target.value)}
                     />
+    
+                    <button>Register</button>
+                    {
+                    errors.map((err, idx) =>
+                            <p key={idx}>{err}</p>
+                        )
+                }
+                </form>
+                <div>
+                    <ul>
+                        <li style={firstName.length > 0 ? valid : invalid}>First name is required</li>
+                        <li style={lastName.length > 0 ? valid : invalid}>Last name is required</li>
+                        <li 
+                            style={emailRegex.test(email) && email.length > 0 ? valid : invalid}
+                        >Valid email is required</li>
+                        <li
+                            style={passwordRegex.test(password) && password.length > 0 ? valid : invalid}
+                        >
+                            Password must:
+                            <ul>
+                                <li style={password.length >= 8 ? valid : invalid}>Contain at least 8 characters</li>
+                                <li 
+                                    style={pwLowerCase.test(password) && password.length > 0 ? valid : invalid}
+                                >Contain at least one lowercase letter</li>
+                                <li
+                                    style={pwUpperCase.test(password) && password.length > 0 ? valid : invalid}
+                                >Contain at least one uppercase letter</li>
+                                <li
+                                    style={pwNumber.test(password) && password.length > 0 ? valid : invalid}
+                                >Contain at least one number</li>
+                                <li
+                                    style={pwSpecial.test(password) && password.length > 0 ? valid : invalid}
+                                >Contain at least one special character</li>
+                            </ul>
+                        </li>
+                        <li style={password === confirmPassword ? valid : invalid}>Passwords must match</li>
+                    </ul>
                 </div>
-
-                <button>Register</button>
-            </form>
-            <div>
-                <ul>
-                    <li>First name is required</li>
-                    <li>Last name is required</li>
-                    <li>Email is required</li>
-                    <li>
-                        Password must:
-                        <ul>
-                            <li>Contain at least 8 characters</li>
-                            <li>Contain at least one lowercase letter</li>
-                            <li>Contain at least one uppercase letter</li>
-                            <li>Contain at least one number</li>
-                            <li>Contain at least one special character</li>
-                        </ul>
-                    </li>
-                    <li>Passwords must match</li>
-                </ul>
             </div>
-            {
-                errors.map((err, idx) =>
-                        <p key={idx}>{err}</p>
-                    )
-            }
         </div>
     );
 }

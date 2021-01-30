@@ -29,11 +29,23 @@ const Dashboard = props => {
         setSelectedDay(value);
     }
 
+    const logout = event => {
+        event.preventDefault();
+        
+        axios.delete("http://localhost:8000/api/users/logout", {withCredentials: true})
+            .then(_res => {
+                navigate("/");
+            });
+    }
+
     if(!loaded) return <h1>Loading...</h1>
     
     return (
         <div>
-            <h1>Dashboard for {user.firstName}</h1>
+            <div className={styles.dashboardHeader}>
+                <h1>Dashboard for {user.firstName}</h1>
+                <button onClick={logout}>Logout</button>
+            </div>
             <div className={styles.dashboardContent}>
                 <Calendar
                     onChange={onChange}
